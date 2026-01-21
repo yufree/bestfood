@@ -1,0 +1,227 @@
+.container {
+  padding: 0;
+}
+
+/* 顶部区域 */
+.header {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  padding: 40rpx 30rpx;
+  color: white;
+  margin-bottom: 20rpx;
+}
+
+.brand-title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+}
+
+.brand-subtitle {
+  display: block;
+  font-size: 28rpx;
+  opacity: 0.9;
+}
+
+/* 筛选区域 */
+.filters {
+  background: white;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  border-radius: 16rpx;
+  margin: 0 20rpx 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.filter-section {
+  margin-bottom: 24rpx;
+}
+
+.filter-section:last-child {
+  margin-bottom: 0;
+}
+
+.filter-label {
+  display: block;
+  font-size: 26rpx;
+  color: #6b7280;
+  margin-bottom: 16rpx;
+}
+
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.chip {
+  padding: 12rpx 32rpx;
+  border-radius: 999rpx;
+  background: rgba(15, 23, 42, 0.03);
+  color: #6b7280;
+  font-size: 24rpx;
+  border: 1rpx solid transparent;
+  transition: all 0.3s;
+}
+
+.chip-active {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #1d4ed8;
+}
+
+/* 日期选择 */
+.date-section {
+  margin-top: 24rpx;
+}
+
+.date-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(15, 23, 42, 0.03);
+  padding: 20rpx 24rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+}
+
+.arrow {
+  color: #9ca3af;
+  font-size: 20rpx;
+}
+
+/* 区域标题 */
+.section {
+  padding: 0 20rpx;
+  margin-bottom: 40rpx;
+}
+
+.section-header {
+  margin-bottom: 20rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8rpx;
+}
+
+.section-subtitle {
+  display: block;
+  font-size: 24rpx;
+  color: #6b7280;
+}
+
+/* 卡片列表 */
+.card-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-card {
+  background: white;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
+}
+
+.item-card:active {
+  transform: scale(0.98);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.emoji {
+  font-size: 48rpx;
+  margin-right: 16rpx;
+}
+
+.name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* 标签 */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.tag {
+  display: inline-block;
+  padding: 8rpx 16rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  background: rgba(15, 23, 42, 0.03);
+  color: #6b7280;
+}
+
+.tag-fruit {
+  background: rgba(254, 243, 199, 0.8);
+  color: #c2410c;
+  border: 1rpx solid rgba(249, 115, 22, 0.4);
+}
+
+.tag-vegetable {
+  background: rgba(220, 252, 231, 0.8);
+  color: #166534;
+  border: 1rpx solid rgba(22, 163, 74, 0.4);
+}
+
+.tag-peak {
+  background: rgba(22, 163, 74, 0.08);
+  color: #15803d;
+}
+
+/* 评分 */
+.card-footer {
+  display: flex;
+  align-items: baseline;
+}
+
+.score-text {
+  font-size: 24rpx;
+  color: #6b7280;
+}
+
+.score {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #f97316;
+  margin: 0 8rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 80rpx 40rpx;
+  color: #6b7280;
+  background: white;
+  border-radius: 16rpx;
+  margin-top: 20rpx;
+}
+
+/* 加载中 */
+.loading {
+  text-align: center;
+  padding: 40rpx;
+  color: #6b7280;
+}

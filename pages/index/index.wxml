@@ -1,0 +1,220 @@
+<view class="container">
+  <!-- 顶部区域 -->
+  <view class="header">
+    <view class="brand">
+      <text class="brand-title">时令果蔬助手</text>
+      <text class="brand-subtitle">查询当前时间中国各地应季水果蔬菜</text>
+    </view>
+  </view>
+
+  <!-- 筛选区域 -->
+  <view class="filters">
+    <view class="filter-section">
+      <text class="filter-label">品类筛选</text>
+      <view class="filter-chips">
+        <view
+          class="chip {{selectedCategory === 'all' ? 'chip-active' : ''}}"
+          bindtap="onCategoryChange"
+          data-value="all"
+        >
+          全部
+        </view>
+        <view
+          class="chip {{selectedCategory === 'fruit' ? 'chip-active' : ''}}"
+          bindtap="onCategoryChange"
+          data-value="fruit"
+        >
+          水果
+        </view>
+        <view
+          class="chip {{selectedCategory === 'vegetable' ? 'chip-active' : ''}}"
+          bindtap="onCategoryChange"
+          data-value="vegetable"
+        >
+          蔬菜
+        </view>
+      </view>
+    </view>
+
+    <view class="filter-section">
+      <text class="filter-label">来源筛选</text>
+      <view class="filter-chips">
+        <view
+          class="chip {{selectedOrigin === 'all' ? 'chip-active' : ''}}"
+          bindtap="onOriginChange"
+          data-value="all"
+        >
+          全部
+        </view>
+        <view
+          class="chip {{selectedOrigin === 'domestic' ? 'chip-active' : ''}}"
+          bindtap="onOriginChange"
+          data-value="domestic"
+        >
+          国产
+        </view>
+        <view
+          class="chip {{selectedOrigin === 'imported' ? 'chip-active' : ''}}"
+          bindtap="onOriginChange"
+          data-value="imported"
+        >
+          进口
+        </view>
+      </view>
+    </view>
+
+    <view class="date-section">
+      <text class="filter-label">查询日期</text>
+      <picker mode="date" value="{{selectedDate}}" bindchange="onDateChange">
+        <view class="date-picker">
+          <text>{{selectedDateFormatted}}</text>
+          <text class="arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 今日最佳推荐 -->
+  <view class="section" wx:if="{{highlightItems.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">今日最佳推荐</text>
+      <text class="section-subtitle">{{summaryText}}</text>
+    </view>
+    <view class="card-list">
+      <view
+        class="item-card"
+        wx:for="{{highlightItems}}"
+        wx:key="id"
+        bindtap="onItemTap"
+        data-item="{{item}}"
+      >
+        <view class="card-header">
+          <view class="card-title">
+            <text class="emoji">{{item._emoji}}</text>
+            <text class="name">{{item.name}}</text>
+          </view>
+          <view class="tag tag-{{item.category}}">
+            {{item.category === 'fruit' ? '水果' : '蔬菜'}}
+          </view>
+        </view>
+
+        <view class="card-tags">
+          <view class="tag tag-peak">当季 · 高峰：{{item._matchedSeason.peak.join('、')}}月</view>
+          <view class="tag" wx:if="{{item.isImported}}">进口可选</view>
+          <view class="tag">{{item._varietyTag}}</view>
+          <view
+            class="tag"
+            wx:for="{{item.nutritionTags.slice(0, 3)}}"
+            wx:key="*this"
+          >
+            {{item}}
+          </view>
+        </view>
+
+        <view class="card-footer">
+          <text class="score-text">综合推荐：</text>
+          <text class="score">{{item._score}}</text>
+          <text class="score-text">/5</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 即将上市 -->
+  <view class="section" wx:if="{{comingSoonItems.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">即将上市</text>
+      <text class="section-subtitle">未来 30 天内上市的美味</text>
+    </view>
+    <view class="card-list">
+      <view
+        class="item-card"
+        wx:for="{{comingSoonItems}}"
+        wx:key="id"
+        bindtap="onItemTap"
+        data-item="{{item}}"
+      >
+        <view class="card-header">
+          <view class="card-title">
+            <text class="emoji">{{item._emoji}}</text>
+            <text class="name">{{item.name}}</text>
+          </view>
+          <view class="tag tag-{{item.category}}">
+            {{item.category === 'fruit' ? '水果' : '蔬菜'}}
+          </view>
+        </view>
+
+        <view class="card-tags">
+          <view class="tag" style="background: #e0f2fe; color: #0284c7;">📅 {{item._comingSoonDate}} 上市</view>
+          <view class="tag">{{item._varietyTag}}</view>
+        </view>
+
+        <view class="card-footer">
+          <text class="score-text">基础推荐：</text>
+          <text class="score">{{item._score}}</text>
+          <text class="score-text">/5</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 当季全部果蔬 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">当季全部果蔬</text>
+      <text class="section-subtitle">按推荐程度排序</text>
+    </view>
+
+    <view class="card-list" wx:if="{{allItems.length > 0}}">
+      <view
+        class="item-card"
+        wx:for="{{allItems}}"
+        wx:key="id"
+        bindtap="onItemTap"
+        data-item="{{item}}"
+      >
+        <view class="card-header">
+          <view class="card-title">
+            <text class="emoji">{{item._emoji}}</text>
+            <text class="name">{{item.name}}</text>
+          </view>
+          <view class="tag tag-{{item.category}}">
+            {{item.category === 'fruit' ? '水果' : '蔬菜'}}
+          </view>
+        </view>
+
+        <view class="card-tags">
+          <view class="tag tag-peak">当季 · 高峰：{{item._matchedSeason.peak.join('、')}}月</view>
+          <view class="tag" wx:if="{{item.isImported}}">进口可选</view>
+          <view class="tag">{{item._varietyTag}}</view>
+          <view
+            class="tag"
+            wx:for="{{item.nutritionTags.slice(0, 3)}}"
+            wx:key="*this"
+          >
+            {{item}}
+          </view>
+        </view>
+
+        <view class="card-footer">
+          <text class="score-text">综合推荐：</text>
+          <text class="score">{{item._score}}</text>
+          <text class="score-text">/5</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{allItems.length === 0 && !loading}}">
+      <text>当前条件下未找到明显应季的水果蔬菜</text>
+      <text style="font-size: 24rpx; margin-top: 16rpx; color: #9ca3af;">
+        可以尝试调整筛选条件
+      </text>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view>

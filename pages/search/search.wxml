@@ -1,0 +1,163 @@
+<view class="container">
+  <!-- 搜索框 -->
+  <view class="search-box">
+    <view class="search-bar">
+      <text class="icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索水果或蔬菜，如：草莓、菠菜"
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        bindconfirm="onSearchConfirm"
+      />
+      <view
+        class="clear-btn"
+        wx:if="{{searchKeyword}}"
+        bindtap="onClearSearch"
+      >
+        ✕
+      </view>
+    </view>
+  </view>
+
+  <!-- 筛选标签 -->
+  <view class="filter-tags">
+    <view class="filter-row">
+      <text class="filter-label">品类：</text>
+      <view class="tags">
+        <view
+          class="tag {{selectedCategory === 'all' ? 'tag-active' : ''}}"
+          bindtap="onCategoryChange"
+          data-value="all"
+        >
+          全部
+        </view>
+        <view
+          class="tag {{selectedCategory === 'fruit' ? 'tag-active' : ''}}"
+          bindtap="onCategoryChange"
+          data-value="fruit"
+        >
+          水果
+        </view>
+        <view
+          class="tag {{selectedCategory === 'vegetable' ? 'tag-active' : ''}}"
+          bindtap="onCategoryChange"
+          data-value="vegetable"
+        >
+          蔬菜
+        </view>
+      </view>
+    </view>
+
+    <view class="filter-row">
+      <text class="filter-label">来源：</text>
+      <view class="tags">
+        <view
+          class="tag {{selectedOrigin === 'all' ? 'tag-active' : ''}}"
+          bindtap="onOriginChange"
+          data-value="all"
+        >
+          全部
+        </view>
+        <view
+          class="tag {{selectedOrigin === 'domestic' ? 'tag-active' : ''}}"
+          bindtap="onOriginChange"
+          data-value="domestic"
+        >
+          国产
+        </view>
+        <view
+          class="tag {{selectedOrigin === 'imported' ? 'tag-active' : ''}}"
+          bindtap="onOriginChange"
+          data-value="imported"
+        >
+          进口
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 搜索结果 -->
+  <view class="result-section" wx:if="{{searchResults.length > 0}}">
+    <view class="result-header">
+      <text class="result-count">找到 {{searchResults.length}} 种果蔬</text>
+    </view>
+    <view class="result-list">
+      <view
+        class="result-item"
+        wx:for="{{searchResults}}"
+        wx:key="id"
+        bindtap="onItemTap"
+        data-item="{{item}}"
+      >
+        <view class="item-header">
+          <text class="emoji">{{item._emoji}}</text>
+          <view class="item-info">
+            <text class="item-name">{{item.name}}</text>
+            <view class="item-tags">
+              <text class="tag-small tag-{{item.category}}">
+                {{item.category === 'fruit' ? '水果' : '蔬菜'}}
+              </text>
+              <text class="tag-small" wx:if="{{item.isImported}}">进口</text>
+            </view>
+          </view>
+          <view class="item-score">
+            <text class="score">{{item._score}}</text>
+            <text class="score-unit">/5</text>
+          </view>
+        </view>
+
+        <view class="item-season" wx:if="{{item._matchedSeason}}">
+          <text class="season-text">
+            {{item._matchedSeason.peak.join('、')}}月高峰
+          </text>
+        </view>
+
+        <view class="item-nutrition">
+          <text
+            class="nutrition-tag"
+            wx:for="{{item.nutritionTags.slice(0, 4)}}"
+            wx:key="*this"
+          >
+            {{item}}
+          </text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 - 无搜索结果 -->
+  <view class="empty-state" wx:if="{{searchKeyword && searchResults.length === 0 && !loading}}">
+    <text class="empty-icon">🔍</text>
+    <text class="empty-text">未找到相关果蔬</text>
+    <text class="empty-hint">试试其他关键词</text>
+  </view>
+
+  <!-- 空状态 - 未搜索 -->
+  <view class="empty-state" wx:if="{{!searchKeyword && !hasSearched}}">
+    <text class="empty-icon">🍎</text>
+    <text class="empty-text">输入关键词搜索果蔬</text>
+    <text class="empty-hint">如：草莓、橙子、西红柿</text>
+  </view>
+
+  <!-- 热门搜索 -->
+  <view class="hot-search" wx:if="{{!searchKeyword && !hasSearched}}">
+    <text class="hot-title">热门搜索</text>
+    <view class="hot-tags">
+      <view
+        class="hot-tag"
+        wx:for="{{hotKeywords}}"
+        wx:key="*this"
+        bindtap="onHotKeywordTap"
+        data-keyword="{{item}}"
+      >
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>搜索中...</text>
+  </view>
+</view>
